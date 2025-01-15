@@ -168,7 +168,7 @@ def List(flags):
         out = f"\033[34;1mInfo\033[0m: Found {len(LST)} packages\n"
 
         for package in packages:
-            out += f"\033[1m{package}\033[22m: Version {packages[package]["version"]}, Developer {packages[package]["developer"]}, Language {packages[package]["language"]}, Path {packages[package]["path"]}\n"
+            out += f"\033[1m{package}\033[22m: Version: {packages[package]["version"]}, Developer: {packages[package]["developer"]}, Language: {packages[package]["language"]}, Path: {packages[package]["path"]}\n"
         
         print(out + "\033[0m")
     
