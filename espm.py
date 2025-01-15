@@ -97,17 +97,11 @@ def install(package, flag):
         except KeyError:
             print(f"\033[31;1mError:\033[0m Package \033[1m{package}\033[22m not found")
 
-        #except Exception as e:
-        #    print(f"\033[31;1mError:\033[0m {e}")
+        except Exception as e:
+            print(f"\033[31;1mError:\033[0m {e}")
     
     else:
         print(f"\033[33;1mWarning\033[0m: Package \033[1m{package}\033[0m is already installed")
-
-
-#packagelinks = {
-#    "spkg": ["https://github.com/Ferriit/SPKG.git", "SPKG"],
-#    "calium": ["https://github.com/Ferriit/CaliumLang.git", "CaliumLang"]
-#}
 
 
 def reinstall(package):
