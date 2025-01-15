@@ -168,7 +168,7 @@ def List(flags):
         out = f"\033[34;1mInfo\033[0m: Found {len(LST)} packages\n"
 
         for package in packages:
-            out += f"\033[1m{package}\033[22m: Version {packages[package]["version"]}, Developer {packages[package]["developer"]}, Language {packages[package]["language"]}, Path {packages[package]["path"]}"
+            out += f"\033[1m{package}\033[22m: Version {packages[package]["version"]}, Developer {packages[package]["developer"]}, Language {packages[package]["language"]}, Path {packages[package]["path"]}\n"
         
         print(out + "\033[0m")
     
@@ -242,6 +242,19 @@ def showpackagelist():
     print(out[:-1])
 
 
+def search(package, flag):
+    try:
+        packagelistLST = list(packagelinks.keys())
+        package = packagelistLST[packagelistLST.index(args[1])]
+        if flag != "-json":
+            print(f"\033[32;1mSuccess\033[0m: Package {package} was found\n\n{package[0].upper() + package[1:]}\n\033[1mGit Repository\033[0m: {packagelinks[package][0]}")
+        else:
+            print(json.dumps({"package": package, "URL": packagelinks[package][0]}))
+            
+    except ValueError:
+        print(f"\033[31;1mError\033[0m: Package {package} was not found")
+
+
 if __name__ == "__main__":
     try:
         global packagelinks
@@ -255,7 +268,7 @@ if __name__ == "__main__":
 
         args = sys.argv[1:]
         if args[0] == "install":
-            if len(args[1:]) > 2:
+            if len(args[1:]) > 1:
                 install(args[2], args[1])
             else:
                 install(args[1], "")
@@ -292,13 +305,11 @@ if __name__ == "__main__":
             show(args[1])
 
         elif args[0] == "search":
-            try:
-                packagelistLST = list(packagelinks.keys())
-                package = packagelistLST[packagelistLST.index(args[1])]
-                print(f"\033[32;1mSuccess\033[0m: Package {package} was found\n\n{package[0].upper() + package[1:]}\n\033[1mGit Repository\033[0m: {packagelinks[package][0]}")
-            
-            except ValueError:
-                print(f"\033[31;1mError\033[0m: Package {package} was not found")
+            if len(args[1:]) > 1:
+                search(args[2], args[1])
+            else:
+                search(args[1], "")
+
 
         elif args[0] == "help":
             print(              
