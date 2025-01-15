@@ -249,7 +249,7 @@ def showpackagelist():
 
 
 if __name__ == "__main__":
-    #try:
+    try:
         global packagelinks
         try:
             packagelinks = update()
