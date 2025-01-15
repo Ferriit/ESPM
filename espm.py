@@ -180,7 +180,7 @@ def show(showpackage: str):
     packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
     package = packages[showpackage]
 
-    print(f"\033[34;1m{showpackage[0].upper() + showpackage[1:]}:\033[39m\nVersion:\033[0m {package["version"]}\n\033[1mDeveloper:\033[0m {package["developer"]}\n\033[1mLanguage:\033[0m {package["language"]}\n\033[1mPath:\033[0m {package["path"]}")
+    print(f"\033[34;1m{showpackage[0].upper() + showpackage[1:]}:\033[39m\nVersion:\033[0m {package["version"]}\n\033[1mDeveloper:\033[0m {package["developer"]}\n\033[1mLanguage:\033[0m {package["language"]}\n\033[1mPath:\033[0m {package["path"]}\n\033[1mDescription:\033[0m {package["description"]}")
 
 
 def update():
