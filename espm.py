@@ -53,7 +53,7 @@ def install(package, flag):
         open(f"{os.path.expanduser("~")}/espm/installed.json", "w").write("{}")
         packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
 
-    if package not in packages and not flag == "-skip":
+    if package not in packages or flag == "-skip":
         if flag != "-skip":
             choice = {"y": True, "n": False}[input(f"Are you sure you want to install \033[1m{package}\033[22m? (y/n) :  ")[0].lower()]
         else:
@@ -110,22 +110,48 @@ def install(package, flag):
 #}
 
 
+def reinstall(package):
+    print(f"\033[34;1mInfo\033[0m: Reinstalling {package}")
+    print(f"\033[34;1mInfo\033[0m: Uninstalling {package}")
+    uninstall(package, "skip")
+    print(f"\033[34;1mInfo\033[0m: Installing {package}")
+    install(package, "-skip")
 
-def uninstall(package):
+
+def upgradepackages():
+    packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
+    print("\033[34;1mInfo\033[0m: Updating Package List")
+    upgrade()
+    packagelinks = update()
+    print("\033[34;1mInfo\033[0m: Updating packages")
+    for i in list(packages.keys()):
+        print(i)
+        if i != "packagelist":
+            reinstall(i)
+
+    print("\033[34;1mInfo\033[0m: Finalizing upgrade")
+
+    return packagelinks
+
+
+def uninstall(package, flag):
     """
     Uninstalls a package
     """
     packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
     if package in packages:
-        choice = {"y": True, "n": False}[input(f"Are you sure you want to uninstall \033[1m{package}\033[22m? (y/n) :  ")[0].lower()]
+        if flag != "skip":
+            choice = {"y": True, "n": False}[input(f"Are you sure you want to uninstall \033[1m{package}\033[22m? (y/n) :  ")[0].lower()]
+        else:
+            choice = True
         if choice:
             print(f"\033[34;1mInfo\033[0m: Uninstalling {package}")
             os.system(f"sudo rm -rf {os.path.expanduser("~")}/espm/{package}")
 
-            del packages["package"]
+            del packages[package]
 
             print("Removing Package Data")
-            open(f"{os.path.expanduser("~")}/espm/installed.json", "w").write(json.dumps(packages))
+            open(f"{os.path.expanduser("~")}/espm/installed.json", "w").write(json.dumps(packages, indent=1))
 
             print(f"\033[32;1mSuccess:\033[0m Package \033[1m{package}\033[0m was uninstalled successfully")
 
@@ -223,7 +249,7 @@ def showpackagelist():
 
 
 if __name__ == "__main__":
-    try:
+    #try:
         global packagelinks
         try:
             packagelinks = update()
@@ -241,7 +267,10 @@ if __name__ == "__main__":
                 install(args[1], "")
 
         elif args[0] == "uninstall":
-            uninstall(args[1])
+            uninstall(args[1], "")
+
+        elif args[0] == "reinstall":
+            reinstall(args[1])
 
         elif args[0] == "version":
             print("\033[1mESMP version \033[34m0.0.1\033[0m")
@@ -250,10 +279,10 @@ if __name__ == "__main__":
             List(args[1:])
 
         elif args[0] == "upgrade":
-            upgrade()
-            packagelinks = update()
+            packagelinks = upgradepackages()
     
         elif args[0] == "update":
+            upgrade()
             packagelinks = update()
     
         elif args[0] == "add-repository":
@@ -268,6 +297,15 @@ if __name__ == "__main__":
         elif args[0] == "show":
             show(args[1])
 
+        elif args[0] == "search":
+            try:
+                packagelistLST = list(packagelinks.keys())
+                package = packagelistLST[packagelistLST.index(args[1])]
+                print(f"\033[32;1mSuccess\033[0m: Package {package} was found\n\n{package[0].upper() + package[1:]}\n\033[1mGit Repository\033[0m: {packagelinks[package][0]}")
+            
+            except ValueError:
+                print(f"\033[31;1mError\033[0m: Package {package} was not found")
+
         elif args[0] == "help":
             print(              
 """
@@ -278,6 +316,9 @@ install: Installs a package. Requires sudo privileges.
 
 uninstall: Uninstalls a package. Requires sudo privileges.
     > sudo espm uninstall <package>
+
+reinstall: Uninstalls and reinstalls a package. Requires sudo privileges.
+    > sudo espm reinstall <package>
 
 upgrade: Downloads the latest Package List. Requires sudo privileges.
     > sudo espm upgrade
