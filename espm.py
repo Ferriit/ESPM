@@ -285,55 +285,8 @@ def search(package, flag):
 
 if __name__ == "__main__":
     try:
-        global packagelinks
-        packagelinks = update()
-
         args = sys.argv[1:]
-        if args[0] == "install":
-            if len(args[1:]) > 1:
-                install(args[2], args[1])
-            else:
-                install(args[1], "")
-
-        elif args[0] == "uninstall":
-            uninstall(args[1], "")
-
-        elif args[0] == "reinstall":
-            reinstall(args[1])
-
-        elif args[0] == "version":
-            print("\033[1mESMP version \033[34m0.0.3\033[0m")
-    
-        elif args[0] == "list":
-            List(args[1:])
-
-        elif args[0] == "upgrade":
-            packagelinks = upgradepackages()
-    
-        elif args[0] == "update":
-            upgrade()
-            packagelinks = update()
-    
-        elif args[0] == "add-repository":
-            addrepo(args[1], args[2])
-
-        elif args[0] == "remove-repository":
-            removerepo(args[1])
-
-        elif args[0] == "show-package-list":
-            showpackagelist()
-    
-        elif args[0] == "show":
-            show(args[1])
-
-        elif args[0] == "search":
-            if len(args[1:]) > 1:
-                search(args[2], args[1])
-            else:
-                search(args[1], "")
-
-
-        elif args[0] == "help":
+        if args[0] == "help":
             print(              
 """
 ESPM (EdgeSoft Package Manager) is a Package Manager built for EdgeSoft tools (Like Calium and SPKG)
@@ -371,6 +324,54 @@ help: Shows this help message.
 
 version: Shows the version.
 """)
+            sys.exit()
+
+        elif args[0] == "version":
+            print("\033[1mESMP version \033[34m0.0.3\033[0m")
+            sys.exit()
+
+        global packagelinks
+        packagelinks = update()
+
+        if args[0] == "install":
+            if len(args[1:]) > 1:
+                install(args[2], args[1])
+            else:
+                install(args[1], "")
+
+        elif args[0] == "uninstall":
+            uninstall(args[1], "")
+
+        elif args[0] == "reinstall":
+            reinstall(args[1])
+    
+        elif args[0] == "list":
+            List(args[1:])
+
+        elif args[0] == "upgrade":
+            packagelinks = upgradepackages()
+    
+        elif args[0] == "update":
+            upgrade()
+            packagelinks = update()
+    
+        elif args[0] == "add-repository":
+            addrepo(args[1], args[2])
+
+        elif args[0] == "remove-repository":
+            removerepo(args[1])
+
+        elif args[0] == "show-package-list":
+            showpackagelist()
+    
+        elif args[0] == "show":
+            show(args[1])
+
+        elif args[0] == "search":
+            if len(args[1:]) > 1:
+                search(args[2], args[1])
+            else:
+                search(args[1], "")
 
     except KeyError:
         print("\033[31;1mError:\033[0m Too few arguments. The help command is \"espm help\"")
