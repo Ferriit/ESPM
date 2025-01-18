@@ -47,6 +47,13 @@ def install(package, flag):
     """
 
     try:
+        packagelinks = update()
+    except FileNotFoundError:
+        packagelinks = {"packagelist": ["https://github.com/Ferriit/ESPMPACKAGELIST.git", "ESPMPACKAGELIST"]}
+        upgrade()
+        packagelinks = update()
+
+    try:
         packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
     except FileNotFoundError:
         os.system(f"sudo mkdir {os.path.expanduser("~")}/espm")
@@ -267,13 +274,6 @@ def search(package, flag):
 if __name__ == "__main__":
     try:
         global packagelinks
-        try:
-            packagelinks = update()
-        except FileNotFoundError:
-            packagelinks = {"packagelist": ["https://github.com/Ferriit/ESPMPACKAGELIST.git", "ESPMPACKAGELIST"]}
-            upgrade()
-            packagelinks = update()
-
 
         args = sys.argv[1:]
         if args[0] == "install":
