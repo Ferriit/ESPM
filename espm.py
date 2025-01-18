@@ -80,6 +80,15 @@ def install(package, flag):
                 print("Saving Package Data")
                 open(f"{os.path.expanduser("~")}/espm/installed.json", "w").write(json.dumps(packages, indent=1))
                 
+                for i in packagedata["languageinstallcommands"]:
+                    os.system(i)
+
+                print("\033[1;34mINFO\033[0m: Installing dependencies")
+                for i in packagedata["dependencies"]:
+                    print(f"\033[1;34mINFO\033[0m: Installing dependency {i}")
+                    install(i, flag)
+
+
                 if packagedata["compile"]:
                     print("Compiling... ", end="")
                     if flag == "spkg":
@@ -280,7 +289,7 @@ if __name__ == "__main__":
             reinstall(args[1])
 
         elif args[0] == "version":
-            print("\033[1mESMP version \033[34m0.0.1\033[0m")
+            print("\033[1mESMP version \033[34m0.0.3\033[0m")
     
         elif args[0] == "list":
             List(args[1:])
