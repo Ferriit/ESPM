@@ -291,38 +291,41 @@ if __name__ == "__main__":
 """
 ESPM (EdgeSoft Package Manager) is a Package Manager built for EdgeSoft tools (Like Calium and SPKG)
                   
-install: Installs a package. Requires sudo privileges.
+\033[1minstall\033[0m: Installs a package. Requires sudo privileges.
     > sudo espm install <package>
 
-uninstall: Uninstalls a package. Requires sudo privileges.
+\033[1muninstall\033[0m: Uninstalls a package. Requires sudo privileges.
     > sudo espm uninstall <package>
 
-reinstall: Uninstalls and reinstalls a package. Requires sudo privileges.
+\033[1mreinstall\033[0m: Uninstalls and reinstalls a package. Requires sudo privileges.
     > sudo espm reinstall <package>
 
-upgrade: Downloads the latest Package List. Requires sudo privileges.
+\033[1mupgrade\033[0m: Downloads the latest Package List. Requires sudo privileges.
     > sudo espm upgrade
 
-update: Updates the loaded Package List to the latest installed one. Requires sudo privileges.
+\033[1mupdate\033[0m: Updates the loaded Package List to the latest installed one. Requires sudo privileges.
     > sudo espm update
 
-add-repository: Adds a custom repository. Requires sudo privileges.
+\033[1madd-repository\033[0m: Adds a custom repository. Requires sudo privileges.
     > sudo espm add-repository <package-name> <Git-link>
 
     The <package-name> is the name you want to use when installing the package.
 
-remove-repository: Removes a customly added repository. Requires sudo privileges.
+\033[1mremove-repository\033[0m: Removes a customly added repository. Requires sudo privileges.
     > sudo espm remove-repository <package-name>
 
-show-package-list: Shows the package list of all available packages.
+\033[1mshow-package-list\033[0m: Shows the package list of all available packages.
     > sudo espm show-package-list
 
-show: Shows the info for a package. The package has to be installed. Requires sudo privileges.
+\033[1mshow\033[0m: Shows the info for a package. The package has to be installed. Requires sudo privileges.
     > sudo espm show <package-name>
 
-help: Shows this help message.
+\033[1msearch\033[0m: Searches the package list for a package. Requires sudo privileges.
+    > sudo espm search <package-name>
 
-version: Shows the version.
+\033[1mhelp\033[0m: Shows this help message.
+
+\033[1mversion\033[0m: Shows the version.
 """)
             sys.exit()
 
