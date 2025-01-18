@@ -7,6 +7,7 @@ import subprocess as sub
 
 
 def upgrade():
+    global packagelinks
     """
     Reads in the new package list from GitHub
     """
@@ -42,6 +43,7 @@ def upgrade():
 
 
 def install(package, flag):
+    global packagelinks
     """
     Installs a package
     """
@@ -121,6 +123,7 @@ def install(package, flag):
 
 
 def reinstall(package):
+    global packagelinks
     print(f"\033[34;1mInfo\033[0m: Reinstalling {package}")
     print(f"\033[34;1mInfo\033[0m: Uninstalling {package}")
     uninstall(package, "skip")
@@ -129,6 +132,7 @@ def reinstall(package):
 
 
 def upgradepackages():
+    global packagelinks
     packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
     print("\033[34;1mInfo\033[0m: Updating Package List")
     upgrade()
@@ -145,6 +149,7 @@ def upgradepackages():
 
 
 def uninstall(package, flag):
+    global packagelinks
     """
     Uninstalls a package
     """
@@ -170,6 +175,7 @@ def uninstall(package, flag):
 
 
 def List(flags):
+    global packagelinks
     """
     Lists all installed packages
     """
@@ -193,6 +199,7 @@ def List(flags):
 
 
 def show(showpackage: str):
+    global packagelinks
     packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
     package = packages[showpackage]
 
@@ -200,6 +207,7 @@ def show(showpackage: str):
 
 
 def update():
+    global packagelinks
     """
     Updates package list to the one most recently installed
     """
@@ -229,6 +237,7 @@ def update():
 
 
 def addrepo(packagename: str, repo: str):
+    global packagelinks
     reversedrepo = repo[::-1]
     name = reversedrepo[reversedrepo.find("tig.") + 4:reversedrepo.find("/")][::-1]
 
@@ -242,6 +251,7 @@ def addrepo(packagename: str, repo: str):
 
 
 def removerepo(packagename: str):
+    global packagelinks
     try:
         custompackagelst = json.loads(open(f"{os.path.expanduser("~")}/espm/custompackages/packagelist.json", "r").read())
         del custompackagelst[packagename]
@@ -252,6 +262,7 @@ def removerepo(packagename: str):
 
 
 def showpackagelist():
+    global packagelinks
     out = "\033[94;1mESPM Package list:\033[0m\n"
     for i in packagelinks:
         out += f"\033[34m{i}\033[0m: {packagelinks[i][0]}\n"
@@ -259,6 +270,7 @@ def showpackagelist():
 
 
 def search(package, flag):
+    global packagelinks
     try:
         packagelistLST = list(packagelinks.keys())
         package = packagelistLST[packagelistLST.index(args[1])]
@@ -274,6 +286,7 @@ def search(package, flag):
 if __name__ == "__main__":
     try:
         global packagelinks
+        packagelinks = update()
 
         args = sys.argv[1:]
         if args[0] == "install":
