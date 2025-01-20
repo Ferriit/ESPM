@@ -14,15 +14,15 @@ def upgrade():
 
     package = "packagelist"
     try:
-        packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
+        packages = json.loads(open(f"{os.path.expanduser('~')}/espm/installed.json", "r").read())
     except FileNotFoundError:
-        os.system(f"sudo mkdir {os.path.expanduser("~")}/espm")
-        open(f"{os.path.expanduser("~")}/espm/installed.json", "w").write("{}")
-        packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
+        os.system(f"sudo mkdir {os.path.expanduser('~')}/espm")
+        open(f"{os.path.expanduser('~')}/espm/installed.json", "w").write("{}")
+        packages = json.loads(open(f"{os.path.expanduser('~')}/espm/installed.json", "r").read())
 
     try:  
             print(f"Downloading \033[1mPackage List\033[0m")
-            os.chdir(f"{os.path.expanduser("~")}/espm/")
+            os.chdir(f"{os.path.expanduser('~')}/espm/")
             os.system(f"sudo rm -rf {package}")
             os.system(f"sudo rm -rf ESPMPACKAGELIST")
             os.system(f"git clone https://github.com/Ferriit/ESPMPACKAGELIST.git")
@@ -31,10 +31,10 @@ def upgrade():
 
             packagedata = json.loads(open(f"espmdata.json", "r").read())
 
-            packagedata["path"] = f"{os.path.expanduser("~")}/espm/{package}"
+            packagedata["path"] = f"{os.path.expanduser('~')}/espm/{package}"
             packages[package] = packagedata
 
-            open(f"{os.path.expanduser("~")}/espm/installed.json", "w").write(json.dumps(packages, indent=1))
+            open(f"{os.path.expanduser('~')}/espm/installed.json", "w").write(json.dumps(packages, indent=1))
 
             print(f"\033[32;1mSuccess:\033[0m \033[1mESPM\033[0m was updated successfully")
 
@@ -56,11 +56,11 @@ def install(package, flag):
         packagelinks = update()
 
     try:
-        packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
+        packages = json.loads(open(f"{os.path.expanduser('~')}/espm/installed.json", "r").read())
     except FileNotFoundError:
-        os.system(f"sudo mkdir {os.path.expanduser("~")}/espm")
-        open(f"{os.path.expanduser("~")}/espm/installed.json", "w").write("{}")
-        packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
+        os.system(f"sudo mkdir {os.path.expanduser('~')}/espm")
+        open(f"{os.path.expanduser('~')}/espm/installed.json", "w").write("{}")
+        packages = json.loads(open(f"{os.path.expanduser('~')}/espm/installed.json", "r").read())
 
     if package not in packages or flag == "-skip":
         if flag != "-skip":
@@ -71,7 +71,7 @@ def install(package, flag):
             if choice:
                 
                 print(f"Installing \033[1m{package}\033[0m")
-                os.chdir(f"{os.path.expanduser("~")}/espm/")
+                os.chdir(f"{os.path.expanduser('~')}/espm/")
                 os.system(f"sudo rm -rf {package}")
                 print("Removing old folders")
                 os.system(f"sudo rm -rf {packagelinks[package][1]}")
@@ -83,11 +83,11 @@ def install(package, flag):
                 print("Reading Package Data")
                 packagedata = json.loads(open(f"espmdata.json", "r").read())
 
-                packagedata["path"] = f"{os.path.expanduser("~")}/espm/{package}"
+                packagedata["path"] = f"{os.path.expanduser('~')}/espm/{package}"
                 packages[package] = packagedata
 
                 print("Saving Package Data")
-                open(f"{os.path.expanduser("~")}/espm/installed.json", "w").write(json.dumps(packages, indent=1))
+                open(f"{os.path.expanduser('~')}/espm/installed.json", "w").write(json.dumps(packages, indent=1))
                 
                 for i in packagedata["languageinstallcommands"]:
                     os.system(i)
@@ -133,7 +133,7 @@ def reinstall(package):
 
 def upgradepackages():
     global packagelinks
-    packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
+    packages = json.loads(open(f"{os.path.expanduser('~')}/espm/installed.json", "r").read())
     print("\033[34;1mInfo\033[0m: Updating Package List")
     upgrade()
     packagelinks = update()
@@ -153,7 +153,7 @@ def uninstall(package, flag):
     """
     Uninstalls a package
     """
-    packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
+    packages = json.loads(open(f"{os.path.expanduser('~')}/espm/installed.json", "r").read())
     if package in packages:
         if flag != "skip":
             choice = {"y": True, "n": False}[input(f"Are you sure you want to uninstall \033[1m{package}\033[22m? (y/n) :  ")[0].lower()]
@@ -161,12 +161,12 @@ def uninstall(package, flag):
             choice = True
         if choice:
             print(f"\033[34;1mInfo\033[0m: Uninstalling {package}")
-            os.system(f"sudo rm -rf {os.path.expanduser("~")}/espm/{package}")
+            os.system(f"sudo rm -rf {os.path.expanduser('~')}/espm/{package}")
 
             del packages[package]
 
             print("Removing Package Data")
-            open(f"{os.path.expanduser("~")}/espm/installed.json", "w").write(json.dumps(packages, indent=1))
+            open(f"{os.path.expanduser('~')}/espm/installed.json", "w").write(json.dumps(packages, indent=1))
 
             print(f"\033[32;1mSuccess:\033[0m Package \033[1m{package}\033[0m was uninstalled successfully")
 
@@ -180,10 +180,10 @@ def List(flags):
     Lists all installed packages
     """
     try:
-        packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
+        packages = json.loads(open(f"{os.path.expanduser('~')}/espm/installed.json", "r").read())
     except FileNotFoundError:
-        os.system(f"sudo mkdir {os.path.expanduser("~")}/espm")
-        packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
+        os.system(f"sudo mkdir {os.path.expanduser('~')}/espm")
+        packages = json.loads(open(f"{os.path.expanduser('~')}/espm/installed.json", "r").read())
 
     if "-json" not in flags:
         LST = list(packages.keys())
@@ -200,7 +200,7 @@ def List(flags):
 
 def show(showpackage: str):
     global packagelinks
-    packages = json.loads(open(f"{os.path.expanduser("~")}/espm/installed.json", "r").read())
+    packages = json.loads(open(f"{os.path.expanduser('~')}/espm/installed.json", "r").read())
     package = packages[showpackage]
 
     print(f"\033[34;1m{showpackage[0].upper() + showpackage[1:]}:\033[39m\nVersion:\033[0m {package["version"]}\n\033[1mDeveloper:\033[0m {package["developer"]}\n\033[1mLanguage:\033[0m {package["language"]}\n\033[1mPath:\033[0m {package["path"]}\n\033[1mDescription:\033[0m {package["description"]}")
@@ -211,21 +211,21 @@ def update():
     """
     Updates package list to the one most recently installed
     """
-    packagelinks = json.loads(open(f"{os.path.expanduser("~")}/espm/packagelist/packagelist.json").read())
+    packagelinks = json.loads(open(f"{os.path.expanduser('~')}/espm/packagelist/packagelist.json").read())
     try:
-        temp = open(f"{os.path.expanduser("~")}/espm/custompackages/packagelist.json", "r").read()
+        temp = open(f"{os.path.expanduser('~')}/espm/custompackages/packagelist.json", "r").read()
         custompackagelst = json.loads(temp)
     except FileNotFoundError:
         print("\033[32;1mWarning\033[0m: Failed reading custom Package List")
-        os.system(f"sudo mkdir {os.path.expanduser("~")}/espm/custompackages")
-        open(f"{os.path.expanduser("~")}/espm/custompackages/packagelist.json", "w").write("{}")
+        os.system(f"sudo mkdir {os.path.expanduser('~')}/espm/custompackages")
+        open(f"{os.path.expanduser('~')}/espm/custompackages/packagelist.json", "w").write("{}")
         custompackagelst = {}
 
     except json.decoder.JSONDecodeError:
         print("\033[32;1mWarning\033[0m: Failed reading custom Package List")
-        os.system(f"sudo mkdir {os.path.expanduser("~")}/espm/custompackages")
-        open(f"{os.path.expanduser("~")}/espm/custompackages/packagelist.json", "w").write("{}")
-        temp = open(f"{os.path.expanduser("~")}/espm/custompackages/packagelist.json", "r").read()
+        os.system(f"sudo mkdir {os.path.expanduser('~')}/espm/custompackages")
+        open(f"{os.path.expanduser('~')}/espm/custompackages/packagelist.json", "w").write("{}")
+        temp = open(f"{os.path.expanduser('~')}/espm/custompackages/packagelist.json", "r").read()
         custompackagelst = json.loads(temp)
 
     for package in custompackagelst:
@@ -242,23 +242,23 @@ def addrepo(packagename: str, repo: str):
     name = reversedrepo[reversedrepo.find("tig.") + 4:reversedrepo.find("/")][::-1]
 
     try:
-        custompackagelst = json.loads(open(f"{os.path.expanduser("~")}/espm/custompackages/packagelist.json", "r").read())
+        custompackagelst = json.loads(open(f"{os.path.expanduser('~')}/espm/custompackages/packagelist.json", "r").read())
         custompackagelst[packagename] = [repo, name]
-        open(f"{os.path.expanduser("~")}/espm/custompackages/packagelist.json", "w").write(json.dumps(custompackagelst))
+        open(f"{os.path.expanduser('~')}/espm/custompackages/packagelist.json", "w").write(json.dumps(custompackagelst))
     except FileNotFoundError:
-        os.system(f"sudo mkdir {os.path.expanduser("~")}/espm/custompackages")
-        open(f"{os.path.expanduser("~")}/espm/custompackages/packagelist.json", "w").write(json.dumps("{}"))
+        os.system(f"sudo mkdir {os.path.expanduser('~')}/espm/custompackages")
+        open(f"{os.path.expanduser('~')}/espm/custompackages/packagelist.json", "w").write(json.dumps("{}"))
 
 
 def removerepo(packagename: str):
     global packagelinks
     try:
-        custompackagelst = json.loads(open(f"{os.path.expanduser("~")}/espm/custompackages/packagelist.json", "r").read())
+        custompackagelst = json.loads(open(f"{os.path.expanduser('~')}/espm/custompackages/packagelist.json", "r").read())
         del custompackagelst[packagename]
-        open(f"{os.path.expanduser("~")}/espm/custompackages/packagelist.json", "w").write(json.dumps(custompackagelst))
+        open(f"{os.path.expanduser('~')}/espm/custompackages/packagelist.json", "w").write(json.dumps(custompackagelst))
     except FileNotFoundError:
-        os.system(f"sudo mkdir {os.path.expanduser("~")}/espm/custompackages")
-        open(f"{os.path.expanduser("~")}/espm/custompackages/packagelist.json", "w").write(json.dumps("{}"))
+        os.system(f"sudo mkdir {os.path.expanduser('~')}/espm/custompackages")
+        open(f"{os.path.expanduser('~')}/espm/custompackages/packagelist.json", "w").write(json.dumps("{}"))
 
 
 def showpackagelist():
