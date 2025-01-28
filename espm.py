@@ -101,7 +101,7 @@ def install(package, flag):
                 if packagedata["compile"]:
                     print("Compiling... ", end="")
                     if flag == "spkg":
-                        os.system(f"sudo spkg install {packagedata["compiler"]}")
+                        os.system(f"sudo spkg install {packagedata['compiler']}")
                     os.system(packagedata["compilecommand"])
                     print("Done")
 
@@ -190,7 +190,7 @@ def List(flags):
         out = f"\033[34;1mInfo\033[0m: Found {len(LST)} packages\n"
 
         for package in packages:
-            out += f"\033[1m{package}\033[22m: Version: {packages[package]["version"]}, Developer: {packages[package]["developer"]}, Language: {packages[package]["language"]}, Path: {packages[package]["path"]}\n"
+            out += f"\033[1m{package}\033[22m: Version: {packages[package]['version']}, Developer: {packages[package]['developer']}, Language: {packages[package]['language']}, Path: {packages[package]['path']}\n"
         
         print(out + "\033[0m")
     
@@ -203,7 +203,7 @@ def show(showpackage: str):
     packages = json.loads(open(f"{os.path.expanduser('~')}/espm/installed.json", "r").read())
     package = packages[showpackage]
 
-    print(f"\033[34;1m{showpackage[0].upper() + showpackage[1:]}:\033[39m\nVersion:\033[0m {package["version"]}\n\033[1mDeveloper:\033[0m {package["developer"]}\n\033[1mLanguage:\033[0m {package["language"]}\n\033[1mPath:\033[0m {package["path"]}\n\033[1mDescription:\033[0m {package["description"]}")
+    print(f"\033[34;1m{showpackage[0].upper() + showpackage[1:]}:\033[39m\nVersion:\033[0m {package['version']}\n\033[1mDeveloper:\033[0m {package['developer']}\n\033[1mLanguage:\033[0m {package['language']}\n\033[1mPath:\033[0m {package['path']}\n\033[1mDescription:\033[0m {package['description']}")
 
 
 def update():
@@ -377,4 +377,4 @@ ESPM (EdgeSoft Package Manager) is a Package Manager built for EdgeSoft tools (L
                 search(args[1], "")
 
     except KeyError:
-        print("\033[31;1mError:\033[0m Too few arguments. The help command is \"espm help\"")
+        print("\033[31;1mError:\033[0m Invalid Arguments. The help command is \"espm help\"")
